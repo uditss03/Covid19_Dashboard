@@ -1,9 +1,9 @@
-Covid19_Dashboard
-This is about analysis of Covid-19 cases in India.
+# Covid19_Dashboard<br>
+## This is about analysis of Covid-19 cases in India.<br>
 
-Used
--Bootstrap
--Flask
--Plotly
--BeautifulSoup
--Sklearn
+Used<br>
+-Bootstrap<br>
+-Flask<br>
+-Plotly<br>
+-BeautifulSoup<br>
+-Sklearn<br>
