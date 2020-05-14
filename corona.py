@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request, redirect, url_for
 app = Flask(__name__)
 
 import plotly.graph_objs as go 
@@ -12,16 +12,10 @@ complete_data =complete_data.drop(
   'Total Confirmed cases ( Foreign National )'],
   axis =1)
   
-'''
-import plotly.express as px
-fig = px.scatter_geo(complete_data,lat="Latitude", lon="Longitude", color='Total Confirmed cases', size='Total Confirmed cases', 
-                     projection="natural earth",
-                     hover_name='Name of State / UT', scope='asia', animation_frame="Date",
-                     color_continuous_scale=px.colors.diverging.curl,center={'lat':20, 'lon':78}, 
-                     range_color=[0, max(complete_data['Total Confirmed cases'])])
-fig.update_layout(plot_bgcolor='rgb(275, 270, 100)')
+def state_wise_data(state_name):
+  state_data = pd.DataFrame(complete_data.loc[complete_data['Name of State / UT'] == state_name])
+  return state_data
 
-'''
 
 from corona_graphs import Build_graphs
 build_graphs = Build_graphs(complete_data)
@@ -40,9 +34,25 @@ figuresJSON = json.dumps(figures,cls=plotly.utils.PlotlyJSONEncoder)
 def index():
     return render_template('index.html',ids=ids,figuresJSON=figuresJSON)
 
-@app.route('/state-wise')
+
+@app.route('/state-wise',methods=['GET','POST'])
 def statewise():
-    return render_template('state-wise.html')
+    if (request.method=='POST'):
+        state_name = request.form['state_name']
+        return redirect(url_for("state",state_name=state_name))
+    else:
+        return render_template('state-wise.html')   
+
+
+@app.route('/<state_name>')
+def state(state_name):
+    state_data = state_wise_data(state_name)
+    build_graphs = Build_graphs(state_data)
+    figures = build_graphs.return_figures()
+    ids = ['figure-{}'.format(i) for i, _ in enumerate(figures)]
+    figuresJSON = json.dumps(figures,cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template('state.html',state_name=state_name,ids=ids,figuresJSON=figuresJSON)
+
 
 @app.route('/predictions')
 def predictions():
