@@ -35,13 +35,52 @@
 </nav>
 
 
+<div id="charts" class="container mt-3 text-center">
+                    
+  <!--top two charts--> 
+  <div class="row ">
+    <div class="col-12">
+      <div id="chart1">
+          <div id="{{ids[0]}}"></div>
+      </div>
+    </div>
+  </div>      
+  <div class="row">
+      <div class="col-6">
+          <div id="{{ids[1]}}"></div>
+      </div>
+      <div class="col-6">
+          <div id="{{ids[2]}}"></div>
+      </div>
+  </div>
 
+  <!--bottom two charts-->        
+  <div class="row mb-6">
+      <div class="col-6"> 
+          <div id="chart4">
+              <div id="{{ids[3]}}"></div>
+          </div>
+      </div>
+      <div class="col-6">
+          <div id="chart5">
+              <div id="{{ids[4]}}"></div>
+          </div>
+      </div>
+  </div>
+ 
+  <!--Create another row and place a fifth chart in that row-->        
 
-<!-- Starting from Here -->
+        
+</div>
+
+<!-- Starting from Here 
     
     <div id='{{ids[0]}}'></div>
     <div id='{{ids[1]}}'></div>
     <div id='{{ids[2]}}'></div>
+    <div id='{{ids[3]}}'></div>
+    <div id='{{ids[4]}}'></div>
+-->
     <script type='text/JavaScript'>
       var figures = {{figuresJSON | safe}};
       var ids = {{ids | safe}};

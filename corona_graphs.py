@@ -45,12 +45,13 @@ class Build_graphs:
                   yaxis=dict(title='Total Cases'))
     fig1 = dict(data = data,layout=layout)'''
     fig1 = go.Figure(data=[
-                        go.Bar(name='Deaths', x=temp['Date'], y=temp['Death'],marker_color='#ff0000'),
-                        go.Bar(name='Recovered Cases', x=temp['Date'], y=temp['Cured'],marker_color='#2bad57'),
-                        go.Bar(name='Confirmed Cases', x=temp['Date'], y=temp['Total'],marker_color='#326ac7')]
-                        ,layout = dict(title='COVID-19 Updates',xaxis=dict(title='Dates'),yaxis=dict(title='Cases | Recoveries | Deaths')))
+      go.Bar(name='Deaths', x=temp['Date'], y=temp['Death'],marker_color='#ff0000'),
+      go.Bar(name='Recovered Cases', x=temp['Date'], y=temp['Cured'],marker_color='#2bad57'),
+      go.Bar(name='Active Cases', x=temp['Date'], y=temp['Active'],marker_color='#ff7f0e'),
+      go.Bar(name='Confirmed Cases', x=temp['Date'], y=temp['Total'],marker_color='#326ac7')])
     fig1.update_layout(barmode='stack')
     figures.append(fig1)
+
 
     #fig 2
     trace1 = go.Bar(x = temp['Date'],
@@ -67,6 +68,19 @@ class Build_graphs:
     figures.append(fig2)
 
     # fig 3
+    trace1 = go.Bar(x = temp['Date'],
+                    y = temp['Cured'],
+                    name = 'Deaths',
+                    opacity = 0.8)
+    data = [trace1]
+    layout = dict(title = 'Total Recoveries in India',
+                  xaxis = dict(title='Dates'),
+                  yaxis = dict(title='Recoveries'))
+
+    fig3 = dict(data = data,layout=layout)
+    figures.append(fig3)
+
+    # fig 4
     trace1 = go.Scatter(x = temp['Date'],
                     y = temp['Daily_Cases'],
                     name = 'New Cases',
@@ -83,8 +97,18 @@ class Build_graphs:
     layout = dict(title = 'Daily Update of Covid-19 cases - India',
                   xaxis=dict(title='Daily Cases'),
                   yaxis=dict(title='Daily Cases'))
-    fig3 = dict(data = data,layout=layout)
-    figures.append(fig3)
+    fig4 = dict(data = data,layout=layout)
+    figures.append(fig4)
+
+    #fig 5
+    cur = temp['Cured'][len(temp)-1]
+    act = temp['Active'][len(temp)-1]
+    ded = temp['Death'][len(temp)-1]
+    labels = ['Active Cases','Recovered','Total Deaths']
+    values = [act, cur, ded]
+
+    fig5 = go.Figure(data=[go.Pie(labels=labels, values=values)],layout=dict(title='Corona Cases till Now'))
+    figures.append(fig5)
 
     return figures
 
