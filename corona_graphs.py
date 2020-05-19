@@ -62,7 +62,7 @@ class Build_graphs:
 
     figures = []
     temp = self.data_cleaning()
-    #state_wise = self.state_case()
+    state_wise = self.state_case()
     st = self.complete_data
     x = st['Date'].unique()
     st.where(st['Date']==x[len(x)-1],inplace=True)
