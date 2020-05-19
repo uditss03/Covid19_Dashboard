@@ -62,10 +62,14 @@ class Build_graphs:
 
     figures = []
     temp = self.data_cleaning()
-    state_wise = self.state_case()
+    #state_wise = self.state_case()
+    st = self.complete_data
+    x = st['Date'].unique()
+    st.where(st['Date']==x[len(x)-1],inplace=True)
+    st = st.dropna()
 
     # fig 0
-    fig0 = px.scatter_geo(state_wise,lat="Latitude", lon="Longitude", color='Total Confirmed cases', size='Total Confirmed cases', 
+    fig0 = px.scatter_geo(st,lat="Latitude", lon="Longitude", color='Total Confirmed cases', size='Total Confirmed cases', 
                         projection="natural earth",
                         hover_name='Name of State / UT', scope='asia', 
                         color_continuous_scale=px.colors.diverging.curl,center={'lat':20, 'lon':78},
