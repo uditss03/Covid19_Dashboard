@@ -54,5 +54,5 @@ def state(state_name):
 def predictions():
     return render_template('predictions.html')
 
-if __name__ == "__main__":
-    app.run(debug=True)
+#if __name__ == "__main__":
+#    app.run(debug=True)
