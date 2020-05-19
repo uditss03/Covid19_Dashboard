@@ -7,34 +7,28 @@ import pandas as pd
 import numpy as np
 
 try:
-  complete_data = pd.read_csv("https://raw.githubusercontent.com/imdevskp/covid-19-india-data/master/complete.csv")
+    complete_data = pd.read_csv("https://raw.githubusercontent.com/imdevskp/covid-19-india-data/master/complete.csv")
 except:
-  complete_data = pd.read_csv('complete.csv')
+    complete_data = pd.read_csv('complete.csv')
 complete_data =complete_data.drop(
   ['Total Confirmed cases (Indian National)',
   'Total Confirmed cases ( Foreign National )'],
   axis =1)
   
-def state_wise_data(state_name):
-  state_data = pd.DataFrame(complete_data.loc[complete_data['Name of State / UT'] == state_name])
-  return state_data
 
 
 from corona_graphs import Build_graphs
-build_graphs = Build_graphs(complete_data)
-figures = build_graphs.return_figures()
 
-
-
-#figures = [fig]
-ids = ['figure-{}'.format(i) for i, _ in enumerate(figures)]
-figuresJSON = json.dumps(figures,cls=plotly.utils.PlotlyJSONEncoder)
 
 
 
 @app.route('/')
 @app.route('/index')
 def index():
+    build_graphs = Build_graphs(complete_data=complete_data)
+    figures = build_graphs.return_figures()
+    ids = ['figure-{}'.format(i) for i, _ in enumerate(figures)]
+    figuresJSON = json.dumps(figures,cls=plotly.utils.PlotlyJSONEncoder)
     return render_template('index.html',ids=ids,figuresJSON=figuresJSON)
 
 
@@ -49,9 +43,8 @@ def statewise():
 
 @app.route('/<state_name>')
 def state(state_name):
-    state_data = state_wise_data(state_name)
-    build_graphs = Build_graphs(state_data)
-    figures = build_graphs.return_figures()
+    build_graphs = Build_graphs(complete_data=complete_data,state_name = state_name)
+    figures = build_graphs.return_state_figures()
     ids = ['figure-{}'.format(i) for i, _ in enumerate(figures)]
     figuresJSON = json.dumps(figures,cls=plotly.utils.PlotlyJSONEncoder)
     return render_template('state.html',state_name=state_name,ids=ids,figuresJSON=figuresJSON)
