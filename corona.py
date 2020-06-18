@@ -10,11 +10,11 @@ try:
     complete_data = pd.read_csv("https://raw.githubusercontent.com/imdevskp/covid-19-india-data/master/complete.csv")
 except:
     complete_data = pd.read_csv('complete.csv')
-complete_data = pd.read_csv('complete.csv')
-complete_data =complete_data.drop(
-  ['Total Confirmed cases (Indian National)',
-  'Total Confirmed cases ( Foreign National )'],
-  axis =1)
+#complete_data = pd.read_csv('complete.csv')
+#complete_data =complete_data.drop(
+ # ['Total Confirmed cases (Indian National)',
+  #'Total Confirmed cases ( Foreign National )'],
+  #axis =1)
   
 
 
